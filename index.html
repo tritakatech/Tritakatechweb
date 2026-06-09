@@ -214,7 +214,7 @@ nav {
 .services { padding: 7rem 3rem; max-width: var(--max); margin: 0 auto; }
 .section-head { margin-bottom: 3.5rem; }
 .eyebrow {
-  font-size: 0.73rem; font-weight: 400; letter-spacing: 0.14em;
+  font-size: 0.73rem; font-weight: 600; letter-spacing: 0.14em;
   text-transform: uppercase; color: var(--accent);
   display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1rem;
 }
@@ -224,40 +224,94 @@ nav {
   font-weight: 700; letter-spacing: -0.01em; color: var(--text); line-height: 1.1;
 }
 .section-title .light { font-weight: 400; color: var(--text-3); }
-.services-grid {
-  display: grid; grid-template-columns: repeat(2, 1fr);
-  gap: 1px; background: var(--border);
-  border: 1px solid var(--border);
+
+/* ── SERVICES SPLIT PANEL ── */
+.services-wrap {
+  display: grid; grid-template-columns: 1fr 1fr;
+  min-height: 520px; border: 1px solid var(--border);
+  margin-top: 3rem; overflow: hidden;
 }
-.service-card {
-  background: var(--surface); padding: 2.5rem;
+.svc-list-col {
+  border-right: 1px solid var(--border);
+}
+.svc-row {
+  display: flex; align-items: center; gap: 1.4rem;
+  padding: 1.6rem 2rem; cursor: pointer;
+  border-bottom: 1px solid var(--border);
   transition: background 0.25s;
-  cursor: default; position: relative; overflow: hidden;
+  position: relative;
 }
-.service-card:hover { background: var(--bg-2); }
-.service-card:hover .service-arrow { opacity: 1; transform: translate(0,0); }
-.service-num {
-  font-family: var(--font-display); font-size: 0.72rem;
-  font-weight: 600; color: var(--accent); letter-spacing: 0.1em; margin-bottom: 1.2rem;
+.svc-row:last-child { border-bottom: none; }
+.svc-row::after {
+  content: '';
+  position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+  background: var(--accent); transform: scaleY(0);
+  transition: transform 0.25s; transform-origin: bottom;
 }
-.service-icon { font-size: 2rem; margin-bottom: 1rem; }
-.service-name {
-  font-family: var(--font-display); font-size: 1.35rem;
-  font-weight: 700; letter-spacing: -0.02em; color: var(--text); margin-bottom: 0.75rem;
+.svc-row.active::after { transform: scaleY(1); }
+.svc-row.active { background: var(--bg-2); }
+.svc-row:hover { background: var(--bg-2); }
+.svc-row-num {
+  font-family: var(--font-display); font-size: 0.65rem;
+  font-weight: 700; color: var(--text-3); letter-spacing: 0.1em;
+  min-width: 28px;
 }
-.service-desc { font-size: 0.9rem; line-height: 1.75; color: var(--text-2); font-weight: 300; }
-.service-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1.2rem; }
-.service-tag {
-  font-size: 0.7rem; padding: 3px 10px; border-radius: 20px;
-  background: var(--tag-bg); color: var(--tag-color);
-  border: 1px solid var(--border); font-weight: 400;
+.svc-row.active .svc-row-num { color: var(--accent); }
+.svc-row-emoji { font-size: 1.4rem; flex-shrink: 0; }
+.svc-row-info { flex: 1; }
+.svc-row-title {
+  font-family: var(--font-display); font-size: 1rem;
+  font-weight: 700; color: var(--text); letter-spacing: -0.01em;
+  transition: color 0.2s;
 }
-.service-arrow {
-  position: absolute; top: 2.5rem; right: 2.5rem;
-  font-size: 1.2rem; opacity: 0;
-  transform: translate(-4px, 4px);
-  transition: all 0.25s; color: var(--accent);
+.svc-row.active .svc-row-title { color: var(--accent); }
+.svc-row-sub {
+  font-size: 0.75rem; color: var(--text-3); margin-top: 2px;
 }
+.svc-row-arrow {
+  font-size: 1rem; color: var(--text-3);
+  transition: transform 0.2s, color 0.2s;
+}
+.svc-row.active .svc-row-arrow { transform: translateX(4px); color: var(--accent); }
+
+/* Right panel */
+.svc-panel-col { position: relative; overflow: hidden; background: var(--bg-2); }
+.svc-panel {
+  position: absolute; inset: 0;
+  padding: 3rem; display: flex; flex-direction: column; justify-content: flex-end;
+  opacity: 0; transform: translateY(16px);
+  transition: opacity 0.4s, transform 0.4s;
+  pointer-events: none;
+}
+.svc-panel.active {
+  opacity: 1; transform: translateY(0); pointer-events: auto;
+}
+.svc-panel-emoji {
+  font-size: 4rem; margin-bottom: 1.5rem;
+  filter: drop-shadow(0 4px 16px rgba(0,0,0,0.1));
+}
+.svc-panel-title {
+  font-family: var(--font-display); font-size: 1.6rem;
+  font-weight: 800; color: var(--text); margin-bottom: 0.8rem;
+  letter-spacing: -0.02em; line-height: 1.2;
+}
+.svc-panel-desc {
+  font-size: 0.88rem; line-height: 1.8;
+  color: var(--text-2); font-weight: 300; margin-bottom: 1.4rem;
+  max-width: 340px;
+}
+.svc-panel-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+.svc-panel-tag {
+  font-size: 0.7rem; padding: 4px 12px; border-radius: 20px;
+  background: var(--accent); color: #fff;
+  font-weight: 600; letter-spacing: 0.03em;
+}
+.svc-panel-bg {
+  position: absolute; top: -20px; right: -20px;
+  font-size: 12rem; opacity: 0.04; pointer-events: none;
+  transition: opacity 0.4s;
+}
+.svc-panel.active .svc-panel-bg { opacity: 0.06; }
 
 /* ── PROCESS ── */
 .process { background: var(--inv-bg); padding: 7rem 3rem; transition: background 0.3s; }
@@ -462,6 +516,10 @@ footer { background: var(--inv-bg); padding: 3.5rem 3rem 2rem; transition: backg
   .contact { grid-template-columns: 1fr; padding: 5rem 1.5rem; gap: 3rem; }
   .form-row { grid-template-columns: 1fr; }
   .fyp-grid { grid-template-columns: 1fr; }
+  .services-wrap { grid-template-columns: 1fr; min-height: auto; }
+  .svc-list-col { border-right: none; border-bottom: 1px solid var(--border); }
+  .svc-panel-col { min-height: 300px; }
+  .svc-panel { padding: 2rem; }
   .fyp-section { padding: 5rem 1.5rem; }
   .fyp-cta { padding: 2rem 1.5rem; flex-direction: column; align-items: flex-start; }
   footer { padding: 3rem 1.5rem 2rem; }
@@ -549,76 +607,127 @@ footer { background: var(--inv-bg); padding: 3.5rem 3rem 2rem; transition: backg
 <section class="services" id="services">
   <div class="section-head">
     <p class="eyebrow">What We Do</p>
-    <h2 class="section-title">Services Built for <span class="light">Local Business</span></h2>
+    <h2 class="section-title">Everything Your <span class="light">Business Needs</span></h2>
   </div>
-  <div class="services-grid">
-    <div class="service-card">
-      <div class="service-num">01</div>
-      <div class="service-icon">🌐</div>
-      <div class="service-name">Website Development</div>
-      <div class="service-desc">Fast, modern websites that look great on every device. From simple landing pages to full e-commerce stores — we build sites that convert visitors into customers.</div>
-      <div class="service-tags">
-        <span class="service-tag">Landing Pages</span>
-        <span class="service-tag">E-Commerce</span>
-        <span class="service-tag">Business Sites</span>
-        <span class="service-tag">Portfolios</span>
+  <div class="services-wrap">
+
+    <!-- LEFT: service list -->
+    <div class="svc-list-col">
+      <div class="svc-row active" onmouseenter="activateSvc(0)">
+        <span class="svc-row-num">01</span>
+        <span class="svc-row-emoji">🌐</span>
+        <div class="svc-row-info">
+          <div class="svc-row-title">Website Development</div>
+          <div class="svc-row-sub">Landing pages, e-commerce, business sites</div>
+        </div>
+        <span class="svc-row-arrow">→</span>
       </div>
-      <div class="service-arrow">↗</div>
+      <div class="svc-row" onmouseenter="activateSvc(1)">
+        <span class="svc-row-num">02</span>
+        <span class="svc-row-emoji">📱</span>
+        <div class="svc-row-info">
+          <div class="svc-row-title">App Development</div>
+          <div class="svc-row-sub">Android, iOS, booking & ordering apps</div>
+        </div>
+        <span class="svc-row-arrow">→</span>
+      </div>
+      <div class="svc-row" onmouseenter="activateSvc(2)">
+        <span class="svc-row-num">03</span>
+        <span class="svc-row-emoji">🔍</span>
+        <div class="svc-row-info">
+          <div class="svc-row-title">SEO & Google Visibility</div>
+          <div class="svc-row-sub">Local SEO, Google Maps, keyword strategy</div>
+        </div>
+        <span class="svc-row-arrow">→</span>
+      </div>
+      <div class="svc-row" onmouseenter="activateSvc(3)">
+        <span class="svc-row-num">04</span>
+        <span class="svc-row-emoji">🛠️</span>
+        <div class="svc-row-info">
+          <div class="svc-row-title">Maintenance & Support</div>
+          <div class="svc-row-sub">Monthly plans, updates, WhatsApp support</div>
+        </div>
+        <span class="svc-row-arrow">→</span>
+      </div>
+      <div class="svc-row" onmouseenter="activateSvc(4)">
+        <span class="svc-row-num">05</span>
+        <span class="svc-row-emoji">🎓</span>
+        <div class="svc-row-info">
+          <div class="svc-row-title">Final Year Projects</div>
+          <div class="svc-row-sub">AI, ML, Web — with docs & viva prep</div>
+        </div>
+        <span class="svc-row-arrow">→</span>
+      </div>
     </div>
-    <div class="service-card">
-      <div class="service-num">02</div>
-      <div class="service-icon">📱</div>
-      <div class="service-name">App Development</div>
-      <div class="service-desc">Android and iOS apps for restaurants, salons, clinics, and more. Online ordering, booking systems, loyalty programs — your business in your customers' pockets.</div>
-      <div class="service-tags">
-        <span class="service-tag">Android</span>
-        <span class="service-tag">iOS</span>
-        <span class="service-tag">Booking Apps</span>
-        <span class="service-tag">Ordering Apps</span>
+
+    <!-- RIGHT: detail panel -->
+    <div class="svc-panel-col">
+
+      <div class="svc-panel active" id="svc-0">
+        <div class="svc-panel-bg">🌐</div>
+        <div class="svc-panel-emoji">🌐</div>
+        <div class="svc-panel-title">Website Development</div>
+        <div class="svc-panel-desc">Fast, modern websites that look great on every device. From landing pages to full e-commerce stores — we build sites that convert visitors into real customers.</div>
+        <div class="svc-panel-tags">
+          <span class="svc-panel-tag">Landing Pages</span>
+          <span class="svc-panel-tag">E-Commerce</span>
+          <span class="svc-panel-tag">Business Sites</span>
+          <span class="svc-panel-tag">Booking Systems</span>
+        </div>
       </div>
-      <div class="service-arrow">↗</div>
-    </div>
-    <div class="service-card">
-      <div class="service-num">03</div>
-      <div class="service-icon">🔍</div>
-      <div class="service-name">SEO & Google Visibility</div>
-      <div class="service-desc">Get found when customers search for your business. We optimise your website for Google, set up Google My Business, and drive real local traffic — not just rankings.</div>
-      <div class="service-tags">
-        <span class="service-tag">Local SEO</span>
-        <span class="service-tag">Google Maps</span>
-        <span class="service-tag">Keyword Strategy</span>
-        <span class="service-tag">Content</span>
+
+      <div class="svc-panel" id="svc-1">
+        <div class="svc-panel-bg">📱</div>
+        <div class="svc-panel-emoji">📱</div>
+        <div class="svc-panel-title">App Development</div>
+        <div class="svc-panel-desc">Android and iOS apps for restaurants, salons, clinics, and more. Ordering systems, loyalty programs — your business right in your customers' pockets.</div>
+        <div class="svc-panel-tags">
+          <span class="svc-panel-tag">Android</span>
+          <span class="svc-panel-tag">iOS</span>
+          <span class="svc-panel-tag">Booking Apps</span>
+          <span class="svc-panel-tag">Admin Dashboard</span>
+        </div>
       </div>
-      <div class="service-arrow">↗</div>
-    </div>
-    <div class="service-card">
-      <div class="service-num">04</div>
-      <div class="service-icon">🛠️</div>
-      <div class="service-name">Maintenance & Support</div>
-      <div class="service-desc">We don't disappear after launch. Monthly maintenance plans keep your site fast, secure, and up-to-date — with WhatsApp support whenever you need us.</div>
-      <div class="service-tags">
-        <span class="service-tag">Monthly Plans</span>
-        <span class="service-tag">Security</span>
-        <span class="service-tag">Updates</span>
-        <span class="service-tag">WhatsApp Support</span>
+
+      <div class="svc-panel" id="svc-2">
+        <div class="svc-panel-bg">🔍</div>
+        <div class="svc-panel-emoji">🔍</div>
+        <div class="svc-panel-title">SEO & Google Visibility</div>
+        <div class="svc-panel-desc">Get found when customers search for you. We optimise for Google, set up Google My Business, and drive real local traffic — not just empty rankings.</div>
+        <div class="svc-panel-tags">
+          <span class="svc-panel-tag">Local SEO</span>
+          <span class="svc-panel-tag">Google Maps</span>
+          <span class="svc-panel-tag">Keyword Strategy</span>
+          <span class="svc-panel-tag">Content SEO</span>
+        </div>
       </div>
-      <div class="service-arrow">↗</div>
-    <div class="service-card" style="grid-column: 1 / -1;">
-      <div class="service-num">05</div>
-      <div class="service-icon">🎓</div>
-      <div class="service-name">Final Year Projects — Tech, AI & ML</div>
-      <div class="service-desc">We help engineering and tech students build impressive, working final year projects in Web Development, Artificial Intelligence, Machine Learning, and Data Science. From ideation to submission — we've got you covered.</div>
-      <div class="service-tags">
-        <span class="service-tag">Web Projects</span>
-        <span class="service-tag">AI / ML Models</span>
-        <span class="service-tag">Deep Learning</span>
-        <span class="service-tag">Data Science</span>
-        <span class="service-tag">Python / Flask</span>
-        <span class="service-tag">IEEE / Documentation</span>
-        <span class="service-tag">PPT Support</span>
-        <span class="service-tag">Viva Preparation</span>
+
+      <div class="svc-panel" id="svc-3">
+        <div class="svc-panel-bg">🛠️</div>
+        <div class="svc-panel-emoji">🛠️</div>
+        <div class="svc-panel-title">Maintenance & Support</div>
+        <div class="svc-panel-desc">We don't disappear after launch. Monthly plans keep your site fast, secure, and updated — with real WhatsApp support whenever you need us.</div>
+        <div class="svc-panel-tags">
+          <span class="svc-panel-tag">Monthly Plans</span>
+          <span class="svc-panel-tag">Security</span>
+          <span class="svc-panel-tag">Content Updates</span>
+          <span class="svc-panel-tag">WhatsApp Support</span>
+        </div>
       </div>
-      <div class="service-arrow">↗</div>
+
+      <div class="svc-panel" id="svc-4">
+        <div class="svc-panel-bg">🎓</div>
+        <div class="svc-panel-emoji">🎓</div>
+        <div class="svc-panel-title">Final Year Projects — AI & ML</div>
+        <div class="svc-panel-desc">Complete projects for engineering students — Web, AI, ML, Data Science. From ideation to viva prep, with full documentation and IEEE paper support.</div>
+        <div class="svc-panel-tags">
+          <span class="svc-panel-tag">AI / ML</span>
+          <span class="svc-panel-tag">Deep Learning</span>
+          <span class="svc-panel-tag">IEEE Docs</span>
+          <span class="svc-panel-tag">Viva Prep</span>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
@@ -811,11 +920,11 @@ footer { background: var(--inv-bg); padding: 3.5rem 3rem 2rem; transition: backg
       </div>
       <div class="contact-item">
         <div class="c-icon">💬</div>
-        <div><div class="c-label">WhatsApp</div><div class="c-val">+91 98765 43210</div></div>
+        <div><div class="c-label">WhatsApp</div><div class="c-val">+91 6300852715</div></div>
       </div>
       <div class="contact-item">
         <div class="c-icon">✉️</div>
-        <div><div class="c-label">Email</div><div class="c-val">hello@tritakatech.in</div></div>
+        <div><div class="c-label">Email</div><div class="c-val">tritakatech@gmail.com</div></div>
       </div>
       <div class="contact-item">
         <div class="c-icon">🕐</div>
@@ -832,7 +941,7 @@ footer { background: var(--inv-bg); padding: 3.5rem 3rem 2rem; transition: backg
         </div>
         <div class="form-group">
           <label for="cf-phone">Phone / WhatsApp</label>
-          <input id="cf-phone" type="tel" placeholder="+91 98765 43210">
+          <input id="cf-phone" type="tel" placeholder="+91 6300852715">
         </div>
       </div>
       <div class="form-group">
@@ -899,8 +1008,8 @@ footer { background: var(--inv-bg); padding: 3.5rem 3rem 2rem; transition: backg
     <div>
       <div class="footer-col-title">Contact</div>
       <ul class="footer-links">
-        <li><a href="#">+91 98765 43210</a></li>
-        <li><a href="#">hello@tritakatech.in</a></li>
+        <li><a href="#">+91 6300852715</a></li>
+        <li><a href="#">tritakatech@gmail.com</a></li>
         <li><a href="#">Hyderabad, Telangana</a></li>
       </ul>
     </div>
@@ -926,7 +1035,7 @@ footer { background: var(--inv-bg); padding: 3.5rem 3rem 2rem; transition: backg
   });
 
   /* ── WHATSAPP FORM ── */
-  const COMPANY_WA = '919876543210'; // ← replace with your real number
+  const COMPANY_WA = '916300852715'; // ← replace with your real number
 
   function sendToWhatsApp() {
     const name    = document.getElementById('cf-name').value.trim();
@@ -952,6 +1061,11 @@ _Sent from tritakatech.in contact form_`;
     showToast('✅ Opening WhatsApp with your details…');
     ['cf-name','cf-phone','cf-biz','cf-msg'].forEach(id => document.getElementById(id).value = '');
     document.getElementById('cf-service').selectedIndex = 0;
+  }
+
+  function activateSvc(index) {
+    document.querySelectorAll('.svc-row').forEach((r,i) => r.classList.toggle('active', i === index));
+    document.querySelectorAll('.svc-panel').forEach((p,i) => p.classList.toggle('active', i === index));
   }
 
   function showToast(message) {
